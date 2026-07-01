@@ -95,7 +95,7 @@ Una vez que el proyecto esté en ejecución, puedes acceder a la documentación 
   ```
 >PUT    /users/{id}  → actualizar usuario
 
->PATCH  /users/{id}  → actualizar parcial del usuario
+>PATCH  /users/{id}  → actualización parcial del usuario
 
 >DELETE /users/{id}  → eliminar usuario
 
