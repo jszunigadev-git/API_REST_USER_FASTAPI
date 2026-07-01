@@ -3,10 +3,24 @@
 El proyecto implementa un CRUD base para mantenedor de Usuarios, siguiendo los fundamentos REST.
 
 ### ⚙️ Tecnologías:
+
 - Python 3.13.3
 - FastAPI 0.138.0
 - psycopg2 2.9.12
 - PostgreSQL 18.4
+
+### 📂 Estructura del Proyecto
+
+El proyecto sigue una arquitectura modular orientada al **Patrón Repositorio**, aislando la lógica de negocio del acceso a datos para lograr un código desacoplado y testeable:
+
+*   `database/`: Configuración, conexión y manejo de sesiones con PostgreSQL.
+*   `exceptions/`: Manejo centralizado de errores y excepciones HTTP personalizadas.
+*   `routers/`: Definición de endpoints de la API (Controladores REST).
+*   `schemas/`: Modelos de datos y validación de peticiones con Pydantic.
+*   `services/`: Capa de lógica de negocio que coordina las operaciones del sistema.
+*   `repository/`: Capa de acceso a datos encargada de ejecutar las consultas SQL mediante psycopg2.
+*   `main.py`: Punto de entrada de la aplicación FastAPI.
+
 
 ## 🚀 Instalación y Ejecución
 
