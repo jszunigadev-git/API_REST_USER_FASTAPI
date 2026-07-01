@@ -34,8 +34,8 @@ Sigue estos pasos para clonar el proyecto y levantar el servidor local de desarr
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone https://github.com
-   cd tu-repositorio
+   git clone https://github.com/jszunigadev-git/API_REST_USER_FASTAPI.git
+   cd API_REST_USER_FASTAPI
    ```
 
 2. **Crear el entorno virtual:**
@@ -79,6 +79,27 @@ Una vez que el proyecto esté en ejecución, puedes acceder a la documentación 
 
 * 📘 **Swagger UI (Recomendado):** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) (Para probar los endpoints directamente en el navegador)
 
-<p align="center">
+### Endpoits disponibles:
+
+>GET    /users       → listar usuarios
+
+>GET    /users/{id}  → obtener usuario
+
+>POST   /users       → crear usuario
+ ```JSON
+    {
+      "nombre": "string",
+      "email": "string",
+      "telefono": "string"
+    }
+  ```
+>PUT    /users/{id}  → actualizar usuario
+
+>PATCH  /users/{id}  → actualizar parcial del usuario
+
+>DELETE /users/{id}  → eliminar usuario
+
+
+<p align="">
   <img src="img/image-1.png" alt="Vista previa de Swagger UI" width="500">
 </p>
