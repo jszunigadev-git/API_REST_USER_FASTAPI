@@ -1,1 +1,2 @@
 from .usuario_repository import UsuarioRepository
+from .entrenador_repository import trainerRepository

@@ -1,7 +1,7 @@
 #main.py
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from routers import router_user
+from routers import router_user, router_trainer
 from exceptions import BaseExceptionError
 
 app = FastAPI()
@@ -16,3 +16,4 @@ def domain_exception_handler(request: Request, exc: BaseExceptionError):
 
 
 app.include_router(router_user)
+app.include_router(router_trainer)

@@ -1,1 +1,2 @@
 from .usuario_service import UsuarioService
+from .entrenador_service import TrainerService
