@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from schemas import EntrenadorBase , Entrenador
+from schemas import EntrenadorBase , Entrenador, ClaseOut
 from services import TrainerService
 
 
@@ -25,3 +25,7 @@ def update_trainer(id:int,trainer:EntrenadorBase):
 @router.delete("/{id}",status_code=204)
 def delete_trainer(id:int):
     return TrainerService.delete(id)
+
+@router.get("/{id}/clases",response_model=list[ClaseOut])
+def get_clases_trainer(id:int):
+    return TrainerService.get_clases_by_entrenador(id)

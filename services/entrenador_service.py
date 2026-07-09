@@ -1,4 +1,4 @@
-from database import trainerRepository
+from database import trainerRepository, ClaseRepository
 from schemas import EntrenadorBase,Entrenador
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 
@@ -35,4 +35,8 @@ class TrainerService:
         delete_record = trainerRepository.eliminar_entrenador(id)
         if not delete_record:
             raise RecursoNoEncontrado("Entrenador no encontrado")
+        
+    @capturar_errores_db
+    def get_clases_by_entrenador(id:int):
+        return ClaseRepository.obtener_clase_por_entrenador(id)
         

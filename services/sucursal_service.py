@@ -1,4 +1,4 @@
-from database import SucursalesRepository
+from database import SucursalesRepository, ClaseRepository
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 
 class SucursalService:
@@ -13,3 +13,7 @@ class SucursalService:
         if not response:
             raise RecursoNoEncontrado("Sucursal no encontrada")
         return response
+    
+    @capturar_errores_db
+    def get_clases_by_sucursal(id:int):
+        return ClaseRepository.obtener_clase_por_sucursal(id)
