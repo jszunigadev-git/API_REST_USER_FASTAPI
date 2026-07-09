@@ -1,7 +1,7 @@
 #main.py
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from routers import router_user, router_trainer, router_sucursal, router_membresias , router_tipo_clase
+from routers import *
 from exceptions import BaseExceptionError
 
 app = FastAPI()
@@ -20,4 +20,5 @@ app.include_router(router_trainer)
 app.include_router(router_sucursal)
 app.include_router(router_membresias)
 app.include_router(router_tipo_clase)
+app.include_router(router_clase)
 
