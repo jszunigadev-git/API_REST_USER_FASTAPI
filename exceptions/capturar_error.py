@@ -9,8 +9,10 @@ def capturar_errores_db(func):
             return func(*args, **kwargs)
         except psycopg2.errors.UniqueViolation:
             raise RecursoDuplicado("Error, Existen datos duplicados")
-        except  psycopg2.errors.ForeignKeyViolation:
-            raise RecursoConflictoDependencia("No se pudo eliminar, tiene dependencias")
-        except psycopg2.DatabaseError:
-            raise DatabaseServiceError()
+        except  psycopg2.errors.ForeignKeyViolation as e:
+            detalle = e.diag.message_detail if e.diag.message_detail else "Uno de los identificadores de referencia no existe o está asociado a otro registro."
+            raise RecursoConflictoDependencia(f"Error de dependencias: {detalle}")
+        except psycopg2.DatabaseError as e:
+            detalle = e.diag.message_primary if e.diag.message_primary else "Error en la operación"
+            raise DatabaseServiceError(detalle)
     return wrapper
