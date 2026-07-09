@@ -1,4 +1,4 @@
-from database import TipoClasesRepository
+from database import TipoClasesRepository, ClaseRepository
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 
 class TipoClasesService:
@@ -13,3 +13,7 @@ class TipoClasesService:
         if not response:
             raise RecursoNoEncontrado("Tipo de clase no encontrada")
         return response
+    
+    @capturar_errores_db
+    def get_clases_by_tipo_clase(id:int):
+        return ClaseRepository.obtener_clase_por_tipo_clase(id)
