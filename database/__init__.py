@@ -4,3 +4,4 @@ from .sucursales_repository import SucursalesRepository
 from .membresias_repository import MembresiaRepository
 from .tipo_clases_repository import TipoClasesRepository
 from .clases_repository import ClaseRepository
+from .plan_repository import PlanRepository

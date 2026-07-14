@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Query,Path,Body
-from schemas import UsuarioBase,Usuario,UsuarioPatch
-from services import UsuarioService
+from schemas import UsuarioBase,Usuario,UsuarioPatch,PlanOut
+from services import UsuarioService,PlanService
 
 
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
@@ -37,3 +37,9 @@ def put_user(id:int = Path(..., gt=0) ,usuario:UsuarioBase = Body(...)):
 @router.patch("/usuarios/{id}",response_model=Usuario)
 def patch_user(id:int =Path(...,gt=0), usuario:UsuarioPatch = Body(...)):
     return UsuarioService.patch(id,usuario)
+
+
+# GET/usuarios
+@router.get("/{id}/planes",response_model=list[PlanOut]) 
+def get_plan_user(id:int):
+    return PlanService.get_plan_active_by_user(id)

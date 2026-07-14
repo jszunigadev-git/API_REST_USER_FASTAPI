@@ -1,5 +1,5 @@
 # services/usuarios.py
-from database import UsuarioRepository
+from database import UsuarioRepository,PlanRepository
 from schemas import UsuarioBase, UsuarioPatch , Usuario
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 
@@ -57,3 +57,11 @@ class UsuarioService:
         if not actualizar_patch:
             raise RecursoNoEncontrado("Usuario no encontrado")
         return actualizar_patch
+    
+    @capturar_errores_db
+    def is_active_user(id:int):
+        """Devuelve bool si el usuario indicado cuenta con planes activos"""
+        planes_activos = PlanRepository.obtener_plan_vigente_por_usuario(id)
+        if not planes_activos:
+            return False
+        return True
