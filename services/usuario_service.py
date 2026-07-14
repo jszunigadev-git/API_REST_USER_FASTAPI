@@ -1,5 +1,5 @@
-# services/usuarios.py
-from database import UsuarioRepository,PlanRepository
+
+from repository import UsuarioRepository,PlanRepository
 from schemas import UsuarioBase, UsuarioPatch , Usuario
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 

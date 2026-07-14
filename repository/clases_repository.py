@@ -1,4 +1,4 @@
-from .decorators import conn_cursor
+from database import conn_cursor
 
 class ClaseRepository:
     
@@ -16,32 +16,38 @@ class ClaseRepository:
                        JOIN sucursal AS S ON S.id = C.sucursal_id
                        JOIN entrenador AS E ON E.id = C.entrenador_id
                     """
+    
+    @staticmethod
     @conn_cursor
     def obtener_clases(cursor)->list:
         cursor.execute(ClaseRepository.__BASE_QUERY)
         return cursor.fetchall()
     
+    @staticmethod
     @conn_cursor
     def obtener_clase(cursor,id:int)->dict | None:
         cursor.execute(f"{ClaseRepository.__BASE_QUERY} WHERE C.id = %s",(id,))
         return cursor.fetchone()
     
+    @staticmethod
     @conn_cursor
     def obtener_clase_por_entrenador(cursor,id:int)->list:
         cursor.execute(f"{ClaseRepository.__BASE_QUERY} WHERE E.id = %s",(id,))
         return cursor.fetchall()
     
-    
+    @staticmethod
     @conn_cursor
     def obtener_clase_por_sucursal(cursor,id:int)->list:
         cursor.execute(f"{ClaseRepository.__BASE_QUERY} WHERE S.id = %s",(id,))
         return cursor.fetchall()
     
+    @staticmethod
     @conn_cursor
     def obtener_clase_por_tipo_clase(cursor,id:int)->list:
         cursor.execute(f"{ClaseRepository.__BASE_QUERY} WHERE TC.id  = %s",(id,))
         return cursor.fetchall()
     
+    @staticmethod    
     @conn_cursor
     def crear_clase(cursor,clase:dict)->int | None:
         
@@ -61,6 +67,7 @@ class ClaseRepository:
             return response["id"]
         return None
     
+    @staticmethod
     @conn_cursor
     def actualizar_clase(cursor,clase:dict)->bool:  
         cursor.execute("""
@@ -77,6 +84,7 @@ class ClaseRepository:
             return True
         return False
     
+    @staticmethod
     @conn_cursor
     def eliminar_clase(cursor,id:int)->bool:  
         cursor.execute("DELETE FROM clase WHERE id = %s",(id,))

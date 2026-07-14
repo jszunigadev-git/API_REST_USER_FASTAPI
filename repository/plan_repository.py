@@ -1,4 +1,4 @@
-from .decorators import conn_cursor
+from database import conn_cursor
 from datetime import date
 
 class PlanRepository:
@@ -15,27 +15,34 @@ class PlanRepository:
                        FROM plan AS P
                        JOIN usuario AS U ON U.id = P.usuario_id
                        JOIN membresia AS M ON M.id = P.membresia_id
+    
                     """
+                    
+    @staticmethod
     @conn_cursor
     def obtener_planes(cursor)->list:
         cursor.execute(PlanRepository.__BASE_QUERY)
         return cursor.fetchall()
     
+    @staticmethod
     @conn_cursor
     def obtener_plan_id(cursor,id:int)->dict | None:
         cursor.execute(f"{PlanRepository.__BASE_QUERY} WHERE P.id = %s",(id,))
         return cursor.fetchone()
     
+    @staticmethod
     @conn_cursor
     def obtener_plan_usuario(cursor,id:int)->list:
         cursor.execute(f"{PlanRepository.__BASE_QUERY} WHERE U.id = %s",(id,))
         return cursor.fetchall()
     
+    @staticmethod
     @conn_cursor
     def obtener_plan_vigente_por_usuario(cursor,id:int)->list:
         cursor.execute(f"{PlanRepository.__BASE_QUERY} WHERE P.fecha_fin >= now()::date AND U.id = %s",(id,))
         return cursor.fetchall()
     
+    @staticmethod
     @conn_cursor
     def obtener_plan_vigente_entre_fecha_por_usuario(cursor,id:int,fecha_inicio:date,fecha_fin:date)->bool:
         cursor.execute(f"{PlanRepository.__BASE_QUERY} WHERE (P.fecha_inicio < %s AND P.fecha_fin > %s) AND P.estado = 'activo' AND U.id = %s",(fecha_fin,fecha_inicio,id))
@@ -43,6 +50,7 @@ class PlanRepository:
             return True
         return False
     
+    @staticmethod
     @conn_cursor
     def crear_plan(cursor,plan:dict)->int | None:
         
@@ -61,6 +69,8 @@ class PlanRepository:
             return response["id"]
         return None
     
+    
+    @staticmethod
     @conn_cursor
     def actualizar_plan(cursor, id:int, plan:dict)->bool:  
         

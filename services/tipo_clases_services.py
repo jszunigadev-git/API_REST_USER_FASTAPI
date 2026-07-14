@@ -1,4 +1,4 @@
-from database import TipoClasesRepository, ClaseRepository
+from repository import TipoClasesRepository, ClaseRepository
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 
 class TipoClasesService:

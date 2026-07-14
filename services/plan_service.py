@@ -1,4 +1,4 @@
-from database import PlanRepository, MembresiaRepository
+from repository import PlanRepository, MembresiaRepository
 from exceptions import RecursoNoEncontrado,capturar_errores_db , RecursoConflictoDependencia , BaseExceptionError
 from schemas import PlanCreate, PlanCancel
 from dateutil.relativedelta import relativedelta
