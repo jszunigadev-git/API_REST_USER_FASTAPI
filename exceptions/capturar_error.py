@@ -12,6 +12,8 @@ def capturar_errores_db(func):
         except  psycopg2.errors.ForeignKeyViolation as e:
             detalle = e.diag.message_detail if e.diag.message_detail else "Uno de los identificadores de referencia no existe o está asociado a otro registro."
             raise RecursoConflictoDependencia(f"Error de dependencias: {detalle}")
+        except psycopg2.errors.ExclusionViolation:
+            raise RecursoConflictoDependencia("El plan se solapa con un periodo ya vigente para este usuario.")
         except psycopg2.DatabaseError as e:
             detalle = e.diag.message_primary if e.diag.message_primary else "Error en la operación"
             raise DatabaseServiceError(detalle)

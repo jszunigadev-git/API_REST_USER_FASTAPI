@@ -4,3 +4,4 @@ from .sucursal_service import SucursalService
 from .membresia_service import MembresiaService
 from .tipo_clases_services import TipoClasesService
 from .clases_service import ClasesService
+from .plan_service import PlanService

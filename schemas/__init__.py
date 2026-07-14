@@ -4,3 +4,4 @@ from .sucursales import Sucursales
 from .membresias import Membresia
 from .tipo_clases import TipoClase
 from .clases import ClaseCreate,ClaseUpdate,ClaseOut
+from .plan import PlanCreate,PlanCancel,PlanOut
