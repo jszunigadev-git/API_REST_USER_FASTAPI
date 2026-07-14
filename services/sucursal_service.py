@@ -1,4 +1,4 @@
-from database import SucursalesRepository, ClaseRepository
+from repository import SucursalesRepository, ClaseRepository
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 
 class SucursalService:

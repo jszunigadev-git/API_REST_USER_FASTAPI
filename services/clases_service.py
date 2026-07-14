@@ -1,4 +1,4 @@
-from database import ClaseRepository
+from repository import ClaseRepository
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 from schemas import ClaseCreate,ClaseUpdate
 

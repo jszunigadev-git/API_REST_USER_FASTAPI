@@ -1,4 +1,4 @@
-from database import MembresiaRepository
+from repository import MembresiaRepository
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 
 class MembresiaService:

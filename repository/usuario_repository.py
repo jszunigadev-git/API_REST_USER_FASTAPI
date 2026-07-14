@@ -1,6 +1,8 @@
-from .decorators import conn_cursor
+from database import conn_cursor
 
 class UsuarioRepository:
+    
+    @staticmethod
     @conn_cursor
     def obtener_usuarios(cursor,nombre:str|None = None)->dict|None:
 
@@ -12,7 +14,7 @@ class UsuarioRepository:
         filtrados = cursor.fetchall()
         return filtrados
 
-        
+    @staticmethod    
     @conn_cursor   
     def obtener_usuario(cursor,id:int)->dict|None:
         cursor.execute("SELECT * FROM usuario WHERE id = %s",(id,))
@@ -20,14 +22,16 @@ class UsuarioRepository:
         if  usuario:
             return usuario
         return None
-        
+    
+    @staticmethod    
     @conn_cursor    
     def crear_usuario(cursor,user_data:dict)->dict|None:
 
             cursor.execute("INSERT INTO usuario (nombre,email,telefono) VALUES (%(nombre)s,%(email)s,%(telefono)s) RETURNING id", user_data)
             id_record =  cursor.fetchone()
             return id_record
-
+        
+    @staticmethod
     @conn_cursor    
     def actualizar_usuario(cursor,user_data:dict)->bool:
         
@@ -37,6 +41,7 @@ class UsuarioRepository:
             return True
         return False
 
+    @staticmethod
     @conn_cursor
     def actualizar_patch_usuario(cursor,id:int,user_data:dict)->dict|None:
         if not user_data:
@@ -54,6 +59,7 @@ class UsuarioRepository:
             return cursor.fetchone()
         return None
 
+    @staticmethod
     @conn_cursor       
     def eliminar_usuario(cursor,id:int)->bool:
         

@@ -1,4 +1,4 @@
-from database import trainerRepository, ClaseRepository
+from repository import trainerRepository, ClaseRepository
 from schemas import EntrenadorBase,Entrenador
 from exceptions import RecursoNoEncontrado,capturar_errores_db
 
