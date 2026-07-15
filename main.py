@@ -22,4 +22,4 @@ app.include_router(router_membresias)
 app.include_router(router_tipo_clase)
 app.include_router(router_clase)
 app.include_router(router_plan)
-
+app.include_router(rouert_reserva)
