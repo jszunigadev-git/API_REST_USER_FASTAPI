@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Query,Path,Body
-from schemas import UsuarioBase,Usuario,UsuarioPatch,PlanOut
-from services import UsuarioService,PlanService
+from schemas import UsuarioBase,Usuario,UsuarioPatch,PlanOut, ReservaOut
+from services import UsuarioService,PlanService, ReservaService
 
 
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
@@ -39,7 +39,12 @@ def patch_user(id:int =Path(...,gt=0), usuario:UsuarioPatch = Body(...)):
     return UsuarioService.patch(id,usuario)
 
 
-# GET/usuarios
+# GET/planes
 @router.get("/{id}/planes",response_model=list[PlanOut]) 
 def get_plan_user(id:int):
-    return PlanService.get_plan_active_by_user(id)
+    return PlanService.get_by_userid(id)
+
+# GET/reservas
+@router.get("/{id}/reservas",response_model=list[ReservaOut]) 
+def get_reservas_user(id:int):
+    return ReservaService.get_all_by_user_id(id)

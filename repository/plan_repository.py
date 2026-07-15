@@ -39,7 +39,7 @@ class PlanRepository:
     @staticmethod
     @conn_cursor
     def obtener_plan_vigente_por_usuario(cursor,id:int)->list:
-        cursor.execute(f"{PlanRepository.__BASE_QUERY} WHERE P.fecha_fin >= now()::date AND U.id = %s",(id,))
+        cursor.execute(f"{PlanRepository.__BASE_QUERY} WHERE P.fecha_fin >= now()::date AND U.id = %s AND P.estado = 'activo'",(id,))
         return cursor.fetchall()
     
     @staticmethod
