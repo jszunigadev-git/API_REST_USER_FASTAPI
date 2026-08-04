@@ -1,7 +1,7 @@
 
 from repository import UsuarioRepository,PlanRepository
 from schemas import UsuarioBase, UsuarioPatch , Usuario
-from exceptions import RecursoNoEncontrado,capturar_errores_db
+from exceptions import RecursoNoEncontrado, BaseExceptionError, capturar_errores_db
 
 class UsuarioService:
     @staticmethod
@@ -27,10 +27,10 @@ class UsuarioService:
     @capturar_errores_db
     def create(data: UsuarioBase):
         id_record = UsuarioRepository.crear_usuario(data.model_dump())
-        if id_record:
-            nuevo_usuario = Usuario(id=id_record["id"],**data.model_dump()).model_dump()
-            return nuevo_usuario
-        return None
+        if not id_record:
+            raise BaseExceptionError("Error al crear usuario")
+        nuevo_usuario = Usuario(id=id_record["id"],**data.model_dump()).model_dump()
+        return nuevo_usuario
 
 
     @staticmethod

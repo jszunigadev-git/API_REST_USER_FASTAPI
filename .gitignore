@@ -1,3 +1,5 @@
 .venv/ 
-.env 
+.env
+.env.test
+.coverage
 __pycache__/

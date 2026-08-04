@@ -1,6 +1,6 @@
 from repository import trainerRepository, ClaseRepository
 from schemas import EntrenadorBase,Entrenador
-from exceptions import RecursoNoEncontrado,capturar_errores_db
+from exceptions import RecursoNoEncontrado,BaseExceptionError, capturar_errores_db
 
 class TrainerService:
     
@@ -19,6 +19,8 @@ class TrainerService:
     def create(trainer:EntrenadorBase):
         
         id_trainer = trainerRepository.crear_entrenador(trainer.model_dump())
+        if not id_trainer:
+            raise BaseExceptionError("No fue posible crear al entrenador")
         nuevo_trainer = Entrenador(id=id_trainer["id"],**trainer.model_dump())
         return nuevo_trainer
     

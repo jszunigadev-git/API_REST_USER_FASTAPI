@@ -4,7 +4,7 @@ class UsuarioRepository:
     
     @staticmethod
     @conn_cursor
-    def obtener_usuarios(cursor,nombre:str|None = None)->dict|None:
+    def obtener_usuarios(cursor,nombre:str|None = None)->list|None:
 
         if nombre is None:
             cursor.execute("SELECT * FROM usuario")

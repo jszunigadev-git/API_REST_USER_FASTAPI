@@ -32,9 +32,8 @@ def del_user(id:int = Path(..., gt=0) ):
 def put_user(id:int = Path(..., gt=0) ,usuario:UsuarioBase = Body(...)):
     return  UsuarioService.update(id,usuario)
 
-#Intentar crear PATCH /usuarios/{id} - usuario.model_dump(exclude_unset=True) - class UsuarioPatch(BaseModel):
 #UsuarioPatch
-@router.patch("/usuarios/{id}",response_model=Usuario)
+@router.patch("/{id}",response_model=Usuario)
 def patch_user(id:int =Path(...,gt=0), usuario:UsuarioPatch = Body(...)):
     return UsuarioService.patch(id,usuario)
 
