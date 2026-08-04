@@ -1,5 +1,5 @@
 from repository import ClaseRepository
-from exceptions import RecursoNoEncontrado,capturar_errores_db
+from exceptions import RecursoNoEncontrado,BaseExceptionError, capturar_errores_db
 from schemas import ClaseCreate,ClaseUpdate
 
 class ClasesService:
@@ -20,8 +20,9 @@ class ClasesService:
     @capturar_errores_db
     def create(clase:ClaseCreate):
         id = ClaseRepository.crear_clase(clase.model_dump())
-        if id:
-            return ClaseRepository.obtener_clase(id)
+        if not id:
+            raise BaseExceptionError("No fue posible crear la clase")
+        return ClaseRepository.obtener_clase(id)
         
     @capturar_errores_db
     def update(id:int,clase:ClaseUpdate):
