@@ -18,7 +18,7 @@ class trainerRepository:
     
     @staticmethod
     @conn_cursor
-    def crear_entrenador(cursor,trainer:dict)->int|None:
+    def crear_entrenador(cursor,trainer:dict)->dict|None:
         
         cursor.execute("INSERT INTO entrenador (nombre,email,telefono) VALUES (%(nombre)s, %(email)s , %(telefono)s) RETURNING id",trainer)
         id_trainer = cursor.fetchone()
