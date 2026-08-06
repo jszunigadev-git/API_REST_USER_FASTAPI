@@ -1,6 +1,6 @@
 import pytest
 import psycopg2
-from repository import ReservaRepository
+from repository import ReservaRepository , ClaseRepository
 from database.connection import get_connection
 from psycopg2.extras import RealDictCursor
 
@@ -100,3 +100,71 @@ def test_crear_reserva_con_lock_sin_cupo_retorna_none(clase_con_cupo):
     # El segundo usuario (distinto) intenta reservar la misma clase, ya sin cupo
     segunda = ReservaRepository.crear_reserva_con_lock(usuario_id_2, clase_id)
     assert segunda is None
+    
+
+@pytest.mark.parametrize("obtener_funcion,key_id,es_lista",[
+    (ReservaRepository.obtener_reservas,None,True),
+    (ReservaRepository.obtener_reserva_by_id,"id",False),
+    (ReservaRepository.obtener_reservas_by_usuario,"usuario_id",True)
+])
+def test_reserva_select_by(clase_con_cupo, obtener_funcion, key_id, es_lista):
+    
+    usuario_id = clase_con_cupo["usuario_id"]
+    clase_id = clase_con_cupo["clase_id"]
+
+    reserva_id = ReservaRepository.crear_reserva_con_lock(usuario_id, clase_id)
+    
+    
+    assert reserva_id is not None
+    
+    clase_con_cupo["id"] = reserva_id
+    
+    if key_id:
+        target_id = clase_con_cupo[key_id]
+        resultado = obtener_funcion(target_id)
+    else:
+        resultado = obtener_funcion()
+    
+    if es_lista:
+      assert isinstance(resultado, list)
+      assert len(resultado) > 0
+      id_buscado = [r["id"] for r in resultado]
+      assert reserva_id in id_buscado
+    
+    else:
+       assert isinstance(resultado, dict)
+       assert resultado["id"] == reserva_id 
+
+def test_reserva_crear_reserva_con_lock(clase_con_cupo):
+    
+    usuario_id = clase_con_cupo["usuario_id"]
+    clase_id = clase_con_cupo["clase_id"]
+    
+    reserva_id = ReservaRepository.crear_reserva_con_lock(usuario_id, clase_id)
+    
+    assert reserva_id is not None
+
+    resultado = ReservaRepository.reserva_usuario_clase(usuario_id, clase_id)
+    
+    assert isinstance(resultado, bool)
+    
+    assert resultado is True
+
+  
+def test_plan_cancelar_reserva_lock(clase_con_cupo):
+    
+    usuario_id = clase_con_cupo["usuario_id"]
+    clase_id = clase_con_cupo["clase_id"]
+    
+    reserva_id = ReservaRepository.crear_reserva_con_lock(usuario_id, clase_id)
+    
+    assert reserva_id is not None
+
+    resultado = ReservaRepository.cancelar_reserva_lock(reserva_id)
+    
+    assert isinstance(resultado, bool)
+    
+    assert resultado is True
+
+
+    
