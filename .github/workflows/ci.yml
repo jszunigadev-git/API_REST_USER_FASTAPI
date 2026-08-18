@@ -1,0 +1,59 @@
+name: pytest
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: gimnasio
+    services:
+      postgres:
+        image: postgres:18.4
+        env:
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Crear estructura base psql
+        run: |
+          PGPASSWORD=${DB_PASSWORD} psql -U postgres -h localhost -p 5432 gimnasio < estructura.sql
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.3'
+          
+      - name: instalar dependencias
+        run: |
+          pip install -r requirements.txt
+
+      - name: correr test
+        run: |
+          pytest --cov=services --cov=routers --cov=repository --cov-fail-under=80
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+    steps:
+      - name: Disparar deploy en Render
+        env: 
+          HOOK_URL: ${{secrets.RENDER_DEPLOY_HOOK}}
+        run: |
+          curl -X POST ${HOOK_URL}
