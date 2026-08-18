@@ -34,7 +34,7 @@ jobs:
 
       - name: Crear estructura base psql
         run: |
-          PGPASSWORD=${DB_PASSWORD} psql -U postgres -h localhost -p 5432 gimnasio < estructura.sql
+          PGPASSWORD=${DB_PASSWORD} psql -U postgres -h localhost -p 5432 gimnasio < recource/estructura.sql
 
       - uses: actions/setup-python@v5
         with:
