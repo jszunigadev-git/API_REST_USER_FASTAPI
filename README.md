@@ -1,5 +1,7 @@
 # 🔶 API REST — Sistema de Gestión de Gimnasio
 
+![CI/CD](https://github.com/jszunigadev-git/API_REST_USER_FASTAPI/actions/workflows/ci.yml/badge.svg)
+
 API REST construida con FastAPI para la gestión integral de un gimnasio: usuarios, membresías, planes, clases, reservas, entrenadores y sucursales, siguiendo los fundamentos REST.
 
 ### ⚙️ Tecnologías
@@ -9,6 +11,7 @@ API REST construida con FastAPI para la gestión integral de un gimnasio: usuari
 - psycopg2 2.9.12
 - PostgreSQL 18.4
 - Docker & Docker Compose
+- Render (hosting) & Neon (PostgreSQL gestionado)
 
 ### 📂 Estructura del Proyecto
 
@@ -27,6 +30,31 @@ El proyecto sigue una arquitectura modular orientada al **Patrón Repositorio**,
 ### 🗂️ Modelo de datos
 
 ![Diagrama entidad-relación](recource/img/erd.png)
+
+## 🌍 Demo en producción
+
+La API está desplegada y disponible públicamente:
+
+- 🔗 **URL base:** <https://api-rest-user-fastapi.onrender.com>
+- 📘 **Swagger UI:** <https://api-rest-user-fastapi.onrender.com/docs>
+
+**Arquitectura de deploy:**
+
+| Componente | Servicio | Detalle |
+|---|---|---|
+| API (FastAPI + Docker) | [Render](https://render.com) | Web Service en plan Free, construido desde el `Dockerfile` del repo. Deploy disparado por GitHub Actions solo cuando los tests pasan (ver sección CI/CD). |
+| Base de datos | [Neon](https://neon.tech) | PostgreSQL gestionado, tier gratuito sin expiración. Conexión vía `psycopg2` con `sslmode=require`. |
+
+> ⚠️ **Nota:** el plan Free de Render duerme el servicio tras 15 minutos de inactividad. La primera petición después de un rato de inactividad puede tardar hasta 50 segundos en responder mientras el servicio despierta; las siguientes son inmediatas.
+
+## ⚡ CI/CD
+
+Cada push a `main` dispara un workflow de **GitHub Actions**: primero corre la suite de tests con un umbral mínimo de cobertura (80%); si pasa, se dispara automáticamente el deploy en Render vía Deploy Hook. Si los tests fallan, el deploy nunca se ejecuta.
+
+```
+push a main → tests + cobertura ≥80% → ✅ → deploy en Render
+                                     → ❌ → deploy cancelado
+```
 
 ## 🚀 Instalación y Ejecución
 
